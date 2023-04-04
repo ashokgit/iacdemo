@@ -50,6 +50,6 @@ resource "aws_iam_policy" "lambda_policy" {
 }
 
 data "aws_iam_policy" "existing_lambda_policy" {
-  count = var.create_iam_resources ? 0 : 1
-  name  = "lambda_policy_"
+  for_each = var.create_iam_resources ? {} : { for p in aws_iam_policy.lambda_policy : p.name => p }
+  name     = "lambda_policy_*"
 }

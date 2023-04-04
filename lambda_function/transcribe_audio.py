@@ -1,6 +1,8 @@
 import torch
 import librosa
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Tokenizer
+import base64
+import json
 
 def transcribe_audio(audio_file_path):
     # Load the audio file as a waveform
@@ -22,3 +24,29 @@ def transcribe_audio(audio_file_path):
     transcription = tokenizer.batch_decode(predicted_ids)[0]
 
     return transcription
+
+def lambda_handler(event, context):
+    # Check if the audio file is base64 encoded in the request body
+    if event["isBase64Encoded"]:
+        audio_data = base64.b64decode(event["body"])
+    else:
+        audio_data = event["body"].encode("utf-8")
+
+    # Save the audio data to a temporary file
+    audio_file_path = "/tmp/audio.wav"
+    with open(audio_file_path, "wb") as audio_file:
+        audio_file.write(audio_data)
+
+    # Transcribe the audio file
+    transcription = transcribe_audio(audio_file_path)
+
+    # Return the transcription as a JSON response
+    response = {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json",
+        },
+        "body": json.dumps({"transcription": transcription}),
+    }
+
+    return response
