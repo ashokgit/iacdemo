@@ -17,13 +17,13 @@ resource "aws_api_gateway_method" "transcribe_method" {
 }
 
 resource "aws_api_gateway_integration" "transcribe_integration" {
-  rest_api_id = aws_api_gateway_rest_api.audio_transcription_api.id
-  resource_id = aws_api_gateway_resource.transcribe_resource.id
-  http_method = aws_api_gateway_method.transcribe_method.http_method
+  rest_api_id = aws_api_gateway_rest_api.transcribe.id
+  resource_id = aws_api_gateway_resource.transcribe.id
+  http_method = aws_api_gateway_method.transcribe.http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.transcription.invoke_arn
+  uri                     = module.iam.aws_lambda_function.transcription.invoke_arn
 }
 
 resource "aws_api_gateway_deployment" "transcribe_deployment" {

@@ -10,7 +10,7 @@ resource "aws_lambda_function" "transcription" {
   function_name = "audio-transcription"
   handler       = "transcribe_audio.transcribe_audio"
   runtime       = "python3.8"
-  role          = aws_iam_role.lambda_role.arn
+  role          = module.iam.aws_iam_role.lambda_role.arn
 
   filename = "./lambda_function/lambda_function.zip"
 }
