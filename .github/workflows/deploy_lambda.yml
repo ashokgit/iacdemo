@@ -23,7 +23,7 @@ jobs:
       run: terraform validate
 
     - name: Apply Terraform
-      run: terraform apply -auto-approve
+      run: terraform apply -var="lambda_role_name=my-lambda-role"
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

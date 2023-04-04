@@ -12,8 +12,7 @@ resource "aws_lambda_function" "transcription" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "example-lambda-role"
-
+  name = var.lambda_role_name
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
