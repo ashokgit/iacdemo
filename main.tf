@@ -8,7 +8,7 @@ resource "aws_lambda_function" "transcription" {
   runtime       = "python3.8"
   role          = aws_iam_role.lambda_role.arn
 
-  filename = "lambda_function.zip"
+  filename = "./lambda_function/lambda_function.zip"
 }
 
 resource "aws_iam_role" "lambda_role" {
