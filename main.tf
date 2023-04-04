@@ -18,6 +18,6 @@ resource "aws_lambda_function" "transcription" {
 resource "aws_lambda_permission" "apigw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.transcription.function_name
+  function_name = aws_lambda_function.transcription[0].function_name
   principal     = "apigateway.amazonaws.com"
 }
