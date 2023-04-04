@@ -7,3 +7,7 @@ variable "create_iam_resources" {
   type        = bool
   default     = false
 }
+variable "create_lambda_function" {
+  type    = bool
+  default = false
+}
