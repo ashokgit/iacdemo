@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.14"
+}
+
 provider "aws" {
   region = "us-east-1"
 }
@@ -16,4 +20,12 @@ resource "aws_lambda_permission" "apigw" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.transcription.function_name
   principal     = "apigateway.amazonaws.com"
+}
+
+module "iam" {
+  source = "./iam"
+}
+
+module "api_gateway" {
+  source = "./api_gateway"
 }
