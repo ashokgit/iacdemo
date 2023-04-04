@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_role" {
-  name               = var.lambda_role_name
+  name = "iac-lambda-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -12,27 +12,32 @@ resource "aws_iam_role" "lambda_role" {
       }
     ]
   })
+
+  tags = {
+    Environment = "dev"
+  }
+
+  # Add ignore_changes block to ignore errors if the role already exists
+  ignore_changes = ["name"]
 }
 
 resource "aws_iam_policy" "lambda_policy" {
-  name        = "lambda_policy"
+  name_prefix = "lambda_policy_"
   policy      = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
-        Action   = [
+        Action = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents"
         ]
+        Effect   = "Allow"
         Resource = "*"
       }
     ]
   })
-}
 
-resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
-  policy_arn = aws_iam_policy.lambda_policy.arn
-  role       = aws_iam_role.lambda_role.name
+  # Add ignore_changes block to ignore errors if the policy already exists
+  ignore_changes = ["name_prefix"]
 }
