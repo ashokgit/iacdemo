@@ -51,5 +51,7 @@ resource "aws_iam_policy" "lambda_policy" {
 
 data "aws_iam_policy" "existing_lambda_policy" {
   count = var.create_iam_resources ? 0 : 1
-  name_prefix  = "lambda_policy_"
+  filter = {
+    name_prefix = "lambda_policy_"
+  }
 }
