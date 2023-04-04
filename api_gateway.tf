@@ -23,7 +23,7 @@ resource "aws_api_gateway_integration" "transcription_integration" {
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.transcription.invoke_arn
+  uri                     = aws_lambda_function.transcription[0].invoke_arn
 }
 
 resource "aws_api_gateway_deployment" "transcription_deployment" {
