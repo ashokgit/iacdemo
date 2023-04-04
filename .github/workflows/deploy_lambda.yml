@@ -41,6 +41,7 @@ jobs:
 
     - name: Package Lambda function
       run: |
+        rm -rf lambda_function/package
         mkdir lambda_function/package
         cp lambda_function/transcribe_audio.py lambda_function/package/
         cp -r venv/lib/python3.8/site-packages/* lambda_function/package/
